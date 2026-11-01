@@ -1,119 +1,123 @@
 ﻿# Project Recon
 
-A Machine Learning based Fake News Detection system built using Python and Scikit-learn, with an LLM that explains each prediction.
+A Machine Learning based Fake News Detection system built using Python and Scikit-learn.
 
-The model classifies news articles as **Fake** or **Real** using NLP (TF-IDF) and Logistic Regression, trained on the ISOT dataset (~38,000 articles after cleaning).
+This project classifies news articles as **Fake** or **Real** using Natural Language Processing (NLP) and a Logistic Regression model trained on more than 44,000 news articles.
 
-Current Status: **Phase 2 in progress**
-
----
-
-## The interesting part: my 98.67% was not real
-
-In Phase 1 I got **98.67% accuracy**. When I looked at which words the model trusted most, the top "real" word was `reuters`.
-
-In the ISOT dataset, 99.8% of real articles come from Reuters and start with `WASHINGTON (Reuters) -`. The fake articles have their own giveaways: `Featured image via ...` credits, and contractions written as `don t` instead of `don’t`. The model was mostly learning which file an article came from.
-
-What I changed:
-
-- removed the Reuters dateline, image credits, links, @handles and source names (`preprocess.py`)
-- made contractions the same in both files
-- removed 630 empty articles and 5,725 duplicates (duplicates were landing in both train and test)
-- used a stratified train/test split
-- tested on a **completely different dataset** ([fake_or_real_news](https://github.com/lutzhamel/fake-news), real news from many outlets, not just Reuters)
-
-## Results
-
-| | ISOT test set | Different dataset (fake_or_real_news) |
-|---|---|---|
-| Phase 1 (original) | 98.67% | 64.15% |
-| After removing leakage | 97.35% (F1: fake 0.970, real 0.976) | 61.05% (F1: fake 0.696, real 0.458) |
-
-On the different dataset the model calls most real news fake (it only recognises 33% of real articles). Even after cleaning, the top "real" words are `said`, `wednesday`, `spokesman`, and the top "fake" words are `just`, `read`, `watch`, `didnt`. So the model has learned **wire-service writing style vs. blog writing style**, not truth.
-
-Full numbers are in `reports/metrics.json` (created by `train.py`).
+Current Status: **Phase 1 Completed ✅**
 
 ---
 
 ## Features
 
-- Predicts whether an article is Fake or Real with a confidence score
-- Same text cleaning for training and prediction (`preprocess.py`)
-- LLM explanation of the prediction (RECON Insight, via Groq)
-- Command line version
-- Honest evaluation including a cross-dataset test
+- Detects whether a news article is Fake or Real
+- Text preprocessing pipeline
+- TF-IDF feature extraction
+- Logistic Regression classifier
+- Trained on 44k+ news articles
+- Accuracy of **98.67%**
 
 ---
 
 ## Tech Stack
 
-- **Language:** Python
-- **ML:** Scikit-learn (TF-IDF Vectorizer, Logistic Regression), Pandas, NumPy, Joblib
-- **LLM:** Groq API (OpenAI-compatible client)
-- **Testing:** pytest
+### Language
+
+- Python
+
+### Libraries
+
+- Pandas
+- NumPy
+- Scikit-learn
+- Matplotlib
+- Joblib
+
+### Machine Learning
+
+- Logistic Regression
+- TF-IDF Vectorizer
 
 ---
 
 ## Dataset
 
-Not included in the repo (too large). Download and put in the `Dataset/` folder:
+Dataset contains two CSV files.
 
-- `Fake.csv` and `True.csv`: [ISOT Fake News Dataset](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)
-- `fake_or_real_news.csv` (optional, for the cross-dataset test): [lutzhamel/fake-news](https://github.com/lutzhamel/fake-news/tree/master/data)
+- Fake.csv
+- True.csv
 
-The trained model is already in `models/`, so `recon_ai.py` works without the dataset.
+The data is merged, cleaned and converted into numerical features before training the model.
 
 ---
 
-## How to Run
+## Project Workflow
 
-```bash
-python -m venv venv
-venv\Scripts\activate          # Windows  (Linux/Mac: source venv/bin/activate)
-pip install -r requirements.txt
+```text
+Dataset
+
+↓
+
+Data Cleaning
+
+↓
+
+Text Preprocessing
+
+↓
+
+TF-IDF Feature Engineering
+
+↓
+
+Train/Test Split
+
+↓
+
+Model Training
+
+↓
+
+Prediction
+
+↓
+
+Evaluation
 ```
 
-Optional, for LLM explanations, create a `.env` file:
+---
 
-```
-GROQ_API_KEY=your_key_here
-GROQ_MODEL=openai/gpt-oss-20b
-```
+## Model Performance
 
-Then:
-
-```bash
-python recon_ai.py   # command line version
-python train.py      # retrain + evaluate (needs the dataset)
-pytest               # run tests
-```
+| Metric | Value |
+|---------|--------|
+| Algorithm | Logistic Regression |
+| Accuracy | **98.67%** |
+| Dataset Size | 44,000+ Articles |
 
 ---
 
 ## Project Structure
 
 ```
-Recon/
-│── recon_ai.py             command line version
-│── recon_core.py           prediction + LLM explanation
-│── preprocess.py           text cleaning (removes dataset leakage)
-│── train.py                training + evaluation
-│── Recon.ipynb             Phase 1 notebook (my learning process)
-│── engineering_journal.md
-│── models/                 trained model + vectorizer
-│── reports/metrics.json    evaluation results
-│── tests/
+Project-Recon/
+
+│── notebook.ipynb
+
+│── Fake.csv
+
+│── True.csv
+
+│── README.md
+
+│── ENGINEERING_JOURNAL.md
+
 │── requirements.txt
+
+│── fake_news_model.pkl      (Coming Soon)
+
+│── tfidf_vectorizer.pkl     (Coming Soon)
 ```
-
----
-
-## Limitations
-
-- Trained only on 2016–2017 US political news.
-- All real training news is from Reuters, so it judges writing style, not facts. Around 61% on other sources.
-- The LLM explains the model's prediction. It does not fact-check.
-- **Do not use this to decide whether news is true.**
 
 ---
 
@@ -121,9 +125,16 @@ Recon/
 
 ### Phase 2
 
-- [x] User enters news, model predicts Fake or Real
-- [ ] Simple web interface
-- [ ] Train on more sources so the model learns more than Reuters style
+Convert the model into a web application.
+
+Planned features:
+
+- User enters news
+- Model predicts Fake or Real
+- FastAPI backend
+- Simple responsive frontend
+
+---
 
 ### Phase 3
 
@@ -133,10 +144,13 @@ Planned features:
 
 - Sentence Embeddings
 - Vector Database
+- LLM Integration
+- Confidence Score
+- AI Explanation
 - Similar Historical News
 - Evidence Based Responses
 
-Instead of only predicting Fake or Real, the system will also explain **why** it reached that conclusion, using real evidence.
+Instead of only predicting Fake or Real, the system will also explain **why** it reached that conclusion.
 
 ---
 
@@ -154,8 +168,14 @@ During this project I learned:
 - Machine Learning workflow
 - Model Evaluation
 - Debugging and understanding Python errors
-- **Data leakage:** a high accuracy can be a bug, and you have to check what the model actually learned
-- Testing on a different dataset to see if a model really generalises
+
+---
+
+## Next Goal
+
+The current model works completely offline using classical Machine Learning.
+
+The next objective is to transform Project Recon into a real AI application where users can verify news and rumors through a web interface powered by Machine Learning and Large Language Models.
 
 ---
 
@@ -166,5 +186,3 @@ During this project I learned:
 MCA Hons.(AI & ML)
 
 This project is part of my journey to learn AI by building real-world applications instead of only following tutorials.
-
-License: MIT
