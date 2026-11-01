@@ -1,15 +1,21 @@
-# Dataset
+# Dataset (download it, see README)
+Dataset/
 dataset/
 
 # Virtual Environment
 venv/
+.venv/
 
 # Python
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Editor
+.vscode/
 
 #API KEYS AND DATA 
 .env

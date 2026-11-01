@@ -1,0 +1,79 @@
+{
+  "articles_used": 37972,
+  "test_size": 7595,
+  "accuracy": 0.9735,
+  "f1_fake": 0.9703,
+  "f1_real": 0.9761,
+  "confusion_matrix": [
+    [
+      3282,
+      126
+    ],
+    [
+      75,
+      4112
+    ]
+  ],
+  "top_words": {
+    "real": [
+      "said",
+      "wednesday",
+      "thursday",
+      "tuesday",
+      "friday",
+      "monday",
+      "republican",
+      "nov",
+      "told",
+      "reporters",
+      "presidential",
+      "minister",
+      "representatives",
+      "democratic",
+      "comment",
+      "spokesman",
+      "edt",
+      "barack",
+      "rival",
+      "saying"
+    ],
+    "fake": [
+      "just",
+      "read",
+      "gop",
+      "watch",
+      "mr",
+      "like",
+      "rep",
+      "hillary",
+      "sen",
+      "hes",
+      "didnt",
+      "america",
+      "heres",
+      "thats",
+      "isnt",
+      "american",
+      "fact",
+      "isis",
+      "doesnt",
+      "daily"
+    ]
+  },
+  "external_test": {
+    "articles": 5987,
+    "accuracy": 0.6105,
+    "f1_fake": 0.696,
+    "f1_real": 0.4582,
+    "confusion_matrix": [
+      [
+        2669,
+        358
+      ],
+      [
+        1974,
+        986
+      ]
+    ]
+  }
+}
