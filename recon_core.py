@@ -1,4 +1,4 @@
-"""Prediction + LLM explanation, used by both the CLI (recon_ai.py) and the web app (app.py)."""
+"""Prediction + LLM explanation, used by the command line version (recon_ai.py)."""
 
 import os
 from pathlib import Path

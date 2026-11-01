@@ -4,9 +4,7 @@ A Machine Learning based Fake News Detection system built using Python and Sciki
 
 The model classifies news articles as **Fake** or **Real** using NLP (TF-IDF) and Logistic Regression, trained on the ISOT dataset (~38,000 articles after cleaning).
 
-Live demo: _coming soon (Hugging Face Spaces)_
-
-Current Status: **Phase 2 in progress** (web app done, deployment next)
+Current Status: **Phase 2 in progress**
 
 ---
 
@@ -42,7 +40,7 @@ Full numbers are in `reports/metrics.json` (created by `train.py`).
 - Predicts whether an article is Fake or Real with a confidence score
 - Same text cleaning for training and prediction (`preprocess.py`)
 - LLM explanation of the prediction (RECON Insight, via Groq)
-- Web interface (Gradio) and command line version
+- Command line version
 - Honest evaluation including a cross-dataset test
 
 ---
@@ -52,7 +50,6 @@ Full numbers are in `reports/metrics.json` (created by `train.py`).
 - **Language:** Python
 - **ML:** Scikit-learn (TF-IDF Vectorizer, Logistic Regression), Pandas, NumPy, Joblib
 - **LLM:** Groq API (OpenAI-compatible client)
-- **Web app:** Gradio
 - **Testing:** pytest
 
 ---
@@ -64,7 +61,7 @@ Not included in the repo (too large). Download and put in the `Dataset/` folder:
 - `Fake.csv` and `True.csv`: [ISOT Fake News Dataset](https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset)
 - `fake_or_real_news.csv` (optional, for the cross-dataset test): [lutzhamel/fake-news](https://github.com/lutzhamel/fake-news/tree/master/data)
 
-The trained model is already in `models/`, so the app works without the dataset.
+The trained model is already in `models/`, so `recon_ai.py` works without the dataset.
 
 ---
 
@@ -86,7 +83,6 @@ GROQ_MODEL=openai/gpt-oss-20b
 Then:
 
 ```bash
-python app.py        # web app at http://127.0.0.1:7860
 python recon_ai.py   # command line version
 python train.py      # retrain + evaluate (needs the dataset)
 pytest               # run tests
@@ -98,7 +94,6 @@ pytest               # run tests
 
 ```
 Recon/
-│── app.py                  Gradio web app
 │── recon_ai.py             command line version
 │── recon_core.py           prediction + LLM explanation
 │── preprocess.py           text cleaning (removes dataset leakage)
@@ -127,8 +122,7 @@ Recon/
 ### Phase 2
 
 - [x] User enters news, model predicts Fake or Real
-- [x] Simple web interface
-- [ ] Deploy on Hugging Face Spaces
+- [ ] Simple web interface
 - [ ] Train on more sources so the model learns more than Reuters style
 
 ### Phase 3
